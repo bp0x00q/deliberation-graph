@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/deliberation-graph/branch.schema.json",
+  "title": "Deliberation branch",
+  "type": "object",
+  "required": [
+    "schema_version", "branch_id", "strategy", "distinguishing_assumption",
+    "optimization_target", "known_tradeoff", "status", "revision"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "branch_id": {"type": "string", "pattern": "^branch-[0-9]{3,6}$"},
+    "strategy": {"type": "string", "minLength": 1},
+    "distinguishing_assumption": {"type": "string", "minLength": 1},
+    "optimization_target": {"type": "string", "minLength": 1},
+    "known_tradeoff": {"type": "string", "minLength": 1},
+    "status": {
+      "enum": ["proposed", "exploring", "first-pass-complete", "shortlisted", "revised", "selected", "fallback", "rejected", "deferred", "merged"]
+    },
+    "summary": {"type": "string"},
+    "assumptions": {"type": "array", "items": {"type": "string"}},
+    "risks": {"type": "array", "items": {"type": "string"}},
+    "next_tests": {"type": "array", "items": {"type": "string"}},
+    "changes": {"type": "array", "items": {"type": "string"}},
+    "remaining_weakness": {"type": "string"},
+    "parent_branch_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^branch-[0-9]{3,6}$"}},
+    "hard_gates": {"type": "object"},
+    "scores": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}},
+    "weighted_score": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "approach_node_id": {"type": ["string", "null"], "pattern": "^node-[0-9]{6}$"},
+    "revision": {"type": "integer", "minimum": 1}
+  }
+}

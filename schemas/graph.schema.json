@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/deliberation-graph/graph.schema.json",
+  "title": "Deliberation graph export",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "nodes", "edges"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["node_id", "node_type", "title", "summary", "status", "source_refs", "revision"],
+        "properties": {
+          "node_id": {"type": "string", "pattern": "^node-[0-9]{6}$"},
+          "node_type": {
+            "enum": ["problem", "constraint", "question", "hypothesis", "approach", "evidence", "assumption", "experiment", "critique", "risk", "decision", "synthesis"]
+          },
+          "branch_id": {"type": ["string", "null"]},
+          "title": {"type": "string", "minLength": 1},
+          "summary": {"type": "string", "minLength": 1},
+          "status": {"type": "string", "minLength": 1},
+          "source_refs": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "revision": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["edge_id", "source_id", "target_id", "relation"],
+        "properties": {
+          "edge_id": {"type": "string", "pattern": "^edge-[0-9]{6}$"},
+          "source_id": {"type": "string", "pattern": "^node-[0-9]{6}$"},
+          "target_id": {"type": "string", "pattern": "^node-[0-9]{6}$"},
+          "relation": {
+            "enum": ["supports", "contradicts", "depends_on", "supersedes", "derived_from", "tests", "blocks", "merges_with", "selected_over"]
+          }
+        }
+      }
+    }
+  }
+}

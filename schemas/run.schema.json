@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/deliberation-graph/run.schema.json",
+  "title": "Deliberation run export",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "state", "branches", "critiques"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "state": {
+      "type": "object",
+      "required": ["schema_version", "run_id", "mode", "phase", "revision", "brief", "limits", "shortlist", "cursor"],
+      "properties": {
+        "schema_version": {"const": 1},
+        "run_id": {"type": "string", "pattern": "^[a-z0-9](?:[a-z0-9-]{0,78}[a-z0-9])?$"},
+        "mode": {"enum": ["quick", "deep", "exhaustive"]},
+        "phase": {"enum": ["framing", "branching", "independent-exploration", "evidence", "cross-critique", "revision", "synthesis", "complete"]},
+        "revision": {"type": "integer", "minimum": 0},
+        "shortlist": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^branch-[0-9]{3,6}$"}},
+        "cursor": {
+          "type": "object",
+          "required": ["last_completed", "in_progress", "next_action", "blockers"],
+          "properties": {
+            "last_completed": {"type": "string"},
+            "in_progress": {"type": "string"},
+            "next_action": {"type": "string"},
+            "blockers": {"type": "array", "items": {"type": "string"}}
+          }
+        }
+      }
+    },
+    "branches": {"type": "array", "items": {"$ref": "branch.schema.json"}},
+    "critiques": {"type": "array", "items": {"type": "object"}}
+  }
+}

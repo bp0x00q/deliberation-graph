@@ -1,0 +1,15 @@
+{
+  "problem": "State the decision or problem to resolve.",
+  "context": "Relevant visible context only.",
+  "hard_constraints": ["A constraint that cannot be traded away."],
+  "success_criteria": ["An observable successful outcome."],
+  "unknowns": ["An unresolved fact that could change the decision."],
+  "hard_gates": [
+    {"id": "feasible", "label": "Technically feasible"},
+    {"id": "meets-constraints", "label": "Meets all hard constraints"}
+  ],
+  "scoring_dimensions": [
+    {"id": "correctness", "label": "Correctness", "weight": 0.5, "direction": "maximize"},
+    {"id": "operational-cost", "label": "Operational cost", "weight": 0.5, "direction": "minimize"}
+  ]
+}
